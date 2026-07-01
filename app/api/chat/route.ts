@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     model: siliconflow('Qwen/Qwen3.5-27B'),
     system: SYSTEM_PROMPT,
     messages,
-    maxTokens: 1024,
+    maxOutputTokens: 1024,
     temperature: 0.7,
   })
 
