@@ -181,16 +181,6 @@ export default function ChatWidget() {
               <ChatMessage key={m.id} role={m.role} content={m.content} />
             ))}
 
-            {/* Loading state — blinking cursor only */}
-            {loading && messages[messages.length - 1]?.content === '' && (
-              <div className="flex justify-start mb-3">
-                <div className="text-[#00D9FF] text-[10px] font-mono mr-2 mt-1 tracking-widest">AG/</div>
-                <div className="bg-[#16161E] border border-[#1E1E28] px-3 py-2.5 rounded-sm rounded-bl-none">
-                  <span className="text-[#00D9FF] text-xs font-mono blink">_</span>
-                </div>
-              </div>
-            )}
-
             {/* Starter prompts */}
             {messages.length === 0 && (
               <div className="pt-3 flex flex-col gap-1.5">
