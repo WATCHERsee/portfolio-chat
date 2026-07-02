@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json()
 
   const result = streamText({
-    model: siliconflow('Qwen/Qwen3.5-27B'),
+    model: siliconflow('deepseek-ai/DeepSeek-V4-Flash'),
     system: SYSTEM_PROMPT,
     messages,
     maxOutputTokens: 1024,
