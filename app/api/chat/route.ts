@@ -3,7 +3,7 @@ import { createOpenAI } from '@ai-sdk/openai'
 import { SYSTEM_PROMPT } from '@/lib/system-prompt'
 
 const siliconflow = createOpenAI({
-  baseURL: 'https://api.siliconflow.cn/v1',
+  baseURL: 'https://api.siliconflow.com/v1',
   apiKey: process.env.SILICONFLOW_API_KEY,
 })
 

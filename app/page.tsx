@@ -34,20 +34,6 @@ export default function Home() {
           Builds agents that ship.
         </p>
 
-        {/* Stats row */}
-        <div className="grid grid-cols-3 gap-px border border-[#1E1E28] mb-12 max-w-lg">
-          {[
-            { label: 'AGENTS DEPLOYED', value: '07' },
-            { label: 'LLM PROVIDERS', value: '03' },
-            { label: 'COST / SIGNAL', value: '$0.006' },
-          ].map((s) => (
-            <div key={s.label} className="bg-[#0F0F14] px-4 py-4 border-r border-[#1E1E28] last:border-r-0">
-              <div className="text-[#52525B] text-[9px] tracking-widest uppercase mb-1">{s.label}</div>
-              <div className="text-[#00D9FF] text-xl font-mono font-bold">{s.value}</div>
-            </div>
-          ))}
-        </div>
-
         {/* Description */}
         <p className="text-[#71717A] text-sm font-mono leading-7 max-w-lg mb-10">
           Multi-agent orchestration. Context engineering. Production AI pipelines.<br />
