@@ -78,7 +78,7 @@ export default function ChatWidget() {
                 <span className="w-2.5 h-2.5 rounded-full bg-[#1E1E28]" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#1E1E28]" />
               </div>
-              <span className="text-[#3F3F50] text-[10px] font-mono tracking-widest">
+              <span className="text-[#52525B] text-[11px] font-mono tracking-widest">
                 PORTFOLIO-AGENT — bash
               </span>
             </div>
@@ -107,7 +107,7 @@ export default function ChatWidget() {
               </a>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
-                <span className="text-[#10B981] text-[9px] font-mono tracking-widest">LIVE</span>
+                <span className="text-[#10B981] text-[11px] font-mono tracking-widest">LIVE</span>
               </div>
             </div>
           </div>
@@ -117,10 +117,10 @@ export default function ChatWidget() {
 
             {/* Boot sequence */}
             <div className="mb-4 pb-4 border-b border-[#1E1E28]">
-              <p className="text-[#2A2A35] text-[10px] font-mono mb-1">
+              <p className="text-[#52525B] text-[11px] font-mono mb-1">
                 DeepSeek-V4-Flash · portfolio-agent v1.0
               </p>
-              <p className="text-[#2A2A35] text-[10px] font-mono">
+              <p className="text-[#3F3F50] text-[11px] font-mono">
                 system prompt loaded · context: 4.2k tokens
               </p>
             </div>
@@ -137,7 +137,7 @@ export default function ChatWidget() {
                     key={s}
                     onClick={() => handleStarterClick(s)}
                     disabled={isLoading}
-                    className="text-left text-[11px] font-mono text-[#52525B] hover:text-[#00D9FF] hover:bg-[rgba(0,217,255,0.04)] border border-[#1E1E28] hover:border-[rgba(0,217,255,0.2)] px-3 py-2 transition-all duration-100 disabled:opacity-40"
+                    className="text-left text-[12px] font-mono text-[#52525B] hover:text-[#00D9FF] hover:bg-[rgba(0,217,255,0.04)] border border-[#1E1E28] hover:border-[rgba(0,217,255,0.2)] px-3 py-2 transition-all duration-100 disabled:opacity-40"
                     style={{ borderRadius: '2px' }}
                   >
                     {s}
@@ -161,7 +161,7 @@ export default function ChatWidget() {
               onChange={handleInputChange}
               placeholder="type your query..."
               disabled={isLoading}
-              className="flex-1 bg-transparent text-[#E4E4E7] text-xs font-mono py-3 px-2 outline-none placeholder:text-[#2A2A35] disabled:opacity-50"
+              className="flex-1 bg-transparent text-[#E4E4E7] text-[13px] font-mono py-3 px-2 outline-none placeholder:text-[#3F3F50] disabled:opacity-50"
             />
             <button
               type="submit"
