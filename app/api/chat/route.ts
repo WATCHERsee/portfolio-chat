@@ -1,17 +1,18 @@
 import { streamText } from 'ai'
-import { createOpenAI } from '@ai-sdk/openai'
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { SYSTEM_PROMPT } from '@/lib/system-prompt'
 
-const siliconflow = createOpenAI({
-  baseURL: process.env.SILICONFLOW_BASE_URL,
-  apiKey: process.env.SILICONFLOW_API_KEY,
+const siliconflow = createOpenAICompatible({
+  name: 'siliconflow',
+  baseURL: process.env.SILICONFLOW_BASE_URL!,
+  apiKey: process.env.SILICONFLOW_API_KEY!,
 })
 
 export async function POST(req: Request) {
   const { messages } = await req.json()
 
   const result = streamText({
-    model: siliconflow('deepseek-ai/DeepSeek-V4-Flash'),
+    model: siliconflow.chatModel('deepseek-ai/DeepSeek-V4-Flash'),
     system: SYSTEM_PROMPT,
     messages,
     maxOutputTokens: 1024,

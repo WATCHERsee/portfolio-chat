@@ -1,13 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useChat } from '@ai-sdk/react'
 import ChatMessage from './ChatMessage'
-
-interface Message {
-  id: string
-  role: 'user' | 'assistant'
-  content: string
-}
 
 const STARTERS = [
   '> what have you built with AI?',
@@ -16,79 +11,32 @@ const STARTERS = [
   '> open to new opportunities?',
 ]
 
-const GREETING: Message = {
+const GREETING = {
   id: 'greeting',
-  role: 'assistant',
+  role: 'assistant' as const,
   content: "AGENT INITIALIZED. I represent Raja's work and skills. Query anything — projects, stack, philosophy, availability.",
 }
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState('')
-  const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat({
+    api: '/api/chat',
+    streamProtocol: 'text',
+  })
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, loading])
+  }, [messages, isLoading])
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100)
   }, [open])
 
-  async function sendMessage(text: string) {
-    if (!text.trim() || loading) return
-
-    const userMsg: Message = { id: Date.now().toString(), role: 'user', content: text }
-    const history = [...messages, userMsg]
-    setMessages(history)
-    setInput('')
-    setLoading(true)
-
-    const assistantId = (Date.now() + 1).toString()
-    setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: '' }])
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: history.map(m => ({ role: m.role, content: m.content })),
-        }),
-      })
-
-      if (!res.ok || !res.body) throw new Error('stream failed')
-
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-      let accumulated = ''
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        accumulated += decoder.decode(value, { stream: true })
-        setMessages(prev =>
-          prev.map(m => m.id === assistantId ? { ...m, content: accumulated } : m)
-        )
-      }
-    } catch {
-      setMessages(prev =>
-        prev.map(m =>
-          m.id === assistantId
-            ? { ...m, content: 'ERR: stream interrupted. retry.' }
-            : m
-        )
-      )
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    sendMessage(input)
+  function handleStarterClick(text: string) {
+    append({ role: 'user', content: text.replace('> ', '') })
   }
 
   const allMessages = [GREETING, ...messages]
@@ -170,7 +118,7 @@ export default function ChatWidget() {
             {/* Boot sequence */}
             <div className="mb-4 pb-4 border-b border-[#1E1E28]">
               <p className="text-[#2A2A35] text-[10px] font-mono mb-1">
-                Qwen3.5-27B · portfolio-agent v1.0
+                DeepSeek-V4-Flash · portfolio-agent v1.0
               </p>
               <p className="text-[#2A2A35] text-[10px] font-mono">
                 system prompt loaded · context: 4.2k tokens
@@ -178,7 +126,7 @@ export default function ChatWidget() {
             </div>
 
             {allMessages.map((m) => (
-              <ChatMessage key={m.id} role={m.role} content={m.content} />
+              <ChatMessage key={m.id} role={m.role as 'user' | 'assistant'} content={m.content} />
             ))}
 
             {/* Starter prompts */}
@@ -187,8 +135,8 @@ export default function ChatWidget() {
                 {STARTERS.map(s => (
                   <button
                     key={s}
-                    onClick={() => sendMessage(s.replace('> ', ''))}
-                    disabled={loading}
+                    onClick={() => handleStarterClick(s)}
+                    disabled={isLoading}
                     className="text-left text-[11px] font-mono text-[#52525B] hover:text-[#00D9FF] hover:bg-[rgba(0,217,255,0.04)] border border-[#1E1E28] hover:border-[rgba(0,217,255,0.2)] px-3 py-2 transition-all duration-100 disabled:opacity-40"
                     style={{ borderRadius: '2px' }}
                   >
@@ -210,14 +158,14 @@ export default function ChatWidget() {
             <input
               ref={inputRef}
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={handleInputChange}
               placeholder="type your query..."
-              disabled={loading}
+              disabled={isLoading}
               className="flex-1 bg-transparent text-[#E4E4E7] text-xs font-mono py-3 px-2 outline-none placeholder:text-[#2A2A35] disabled:opacity-50"
             />
             <button
               type="submit"
-              disabled={loading || !input.trim()}
+              disabled={isLoading || !input.trim()}
               className="text-[#00D9FF] text-[10px] font-mono tracking-widest px-4 py-3 border-l border-[#1E1E28] hover:bg-[rgba(0,217,255,0.06)] disabled:opacity-25 disabled:cursor-not-allowed transition-colors duration-100 shrink-0"
             >
               SEND
