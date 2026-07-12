@@ -34,7 +34,7 @@ My most technically dense project is a production-grade, multi-agent crypto futu
 
 ## This Portfolio Chat Widget
 
-The chatbot you're talking to right now is itself a demo of my AI integration skills — built with Next.js App Router, Vercel AI SDK (streaming), and Claude Sonnet 4.6. The system prompt is the knowledge base; no RAG, no vector DB, no database needed.
+The chatbot you're talking to right now is itself a demo of my AI integration skills — built with Next.js App Router, Vercel AI SDK (streaming), and DeepSeek-V4-Flash via an OpenAI-compatible endpoint. The system prompt is the knowledge base; no RAG, no vector DB, no database needed.
 
 ## Core Technical Skills
 
@@ -46,7 +46,7 @@ The chatbot you're talking to right now is itself a demo of my AI integration sk
 - MCP (Model Context Protocol) server design
 
 **Full-Stack:**
-- Next.js 15 (App Router), React, TypeScript
+- Next.js 16 (App Router), React, TypeScript
 - Vercel AI SDK, streaming UI, edge functions
 - Node.js, REST APIs, WebSocket integrations
 - Tailwind CSS
